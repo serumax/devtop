@@ -11,6 +11,15 @@ The root is whatever you launch it from; the scan goes recursively inward.
 Skipped: `node_modules`, `vendor`, `wp-content`, `wp-admin`, `wp-includes`,
 `dist`, `build` and every hidden directory (so `.claude/worktrees` is ignored).
 
+## Install
+
+macOS (Apple Silicon or Intel) and Linux, through Homebrew:
+
+    brew tap serumax/tap
+    brew install devtop
+
+Homebrew builds it from source, so Go is pulled in as a build dependency.
+
 ## Detection
 
 | Marker | Kind |
