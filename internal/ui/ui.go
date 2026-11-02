@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"time"
 
@@ -237,7 +238,7 @@ func (m Model) key(k tea.KeyMsg) (tea.Model, tea.Cmd) {
 	case "o":
 		if p, ok := m.selected(); ok {
 			if ports := m.info[p.Path].Ports; len(ports) > 0 {
-				_ = exec.Command("xdg-open", fmt.Sprintf("http://localhost:%d", ports[0])).Start()
+				_ = openURL(fmt.Sprintf("http://localhost:%d", ports[0])).Start()
 				m.msg = fmt.Sprintf("opening localhost:%d", ports[0])
 			} else {
 				m.msg = "no listening port"
@@ -450,4 +451,12 @@ func (m Model) logView() string {
 	}
 	b.WriteString(helpStyle.Render("esc/q/l back"))
 	return b.String()
+}
+
+// openURL opens a URL in the default browser: `open` on macOS, `xdg-open` elsewhere.
+func openURL(url string) *exec.Cmd {
+	if runtime.GOOS == "darwin" {
+		return exec.Command("open", url)
+	}
+	return exec.Command("xdg-open", url)
 }
